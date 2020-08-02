@@ -10,7 +10,6 @@ public class SparseArray {
 	public static void main(String[] args) {
 		// 1.创建二维数组11*11
 		// 2.0表示没有棋子，1表示黑子，2表示白子
-		// 测试
 		int chessArr[][] = new int[11][11];
 		// 创建棋子
 		chessArr[1][2] = 1;
