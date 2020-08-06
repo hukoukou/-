@@ -18,6 +18,7 @@ public class SingleLinkedList {
 		HeroNodeModel wusong = new HeroNodeModel(14, "武松", "行者");
 		HeroNodeModel yanqing = new HeroNodeModel(36, "燕青", "浪子");
 		HeroNodeModel shijin = new HeroNodeModel(23, "史进", "九纹龙");
+		HeroNodeModel hukoukou = new HeroNodeModel(1, "胡扣扣", "铁公鸡");
 		SingleLinkedListModel single = new SingleLinkedListModel();
 		SingleLinkedListModel singleList = new SingleLinkedListModel();
 		// 直接添加
@@ -37,6 +38,15 @@ public class SingleLinkedList {
 		singleList.addByOrder(shijin);
 		// 这一个用来测试校验的
 		singleList.addByOrder(wusong);
+		System.out.println("遍历所有节点");
 		singleList.list();
+		// 修改节点信息
+		System.out.printf("修改编号为：%d 的节点\n", hukoukou.no);
+		singleList.updateLinkedList(hukoukou);
+		singleList.list();
+		System.out.println("hukoukou太抠门了，将他从链表中剔除去～～");
+		singleList.delLinkedList(hukoukou);
+		singleList.list();
+
 	}
 }

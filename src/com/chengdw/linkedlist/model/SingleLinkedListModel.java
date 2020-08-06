@@ -85,4 +85,74 @@ public class SingleLinkedListModel {
 			temp = temp.next;
 		}
 	}
+
+	/**
+	 * 修改节点
+	 */
+	public void updateLinkedList(HeroNodeModel node) {
+		// 创建辅助指针，用来在链表上移动
+		HeroNodeModel temp = hedaNode.next;
+		// 校验当前链表是否为空，如果是空， 则不能修改
+		if (temp == null) {
+			System.out.println("当前链表为空～～");
+			return;
+		}
+		// 创建是否修改的标记，如果是true，表示可以修改，fales则不能修改
+		boolean flag = false;
+		while (true) {
+			if (temp == null) {
+				// 遍历完了，没有找到
+				break;
+			}
+			// 遍历链表
+			if (temp.no == node.no) {
+				// 如果找到，跳出循环，修改当前节点信息
+				flag = true;
+				break;
+			}
+			// 若没有找到，指针后移
+			temp = temp.next;
+		}
+		if (flag) {
+			// 修改节点信息
+			temp.name = node.name;
+			temp.nikeName = node.nikeName;
+		} else {
+			System.out.printf("没有找到编号为：%d的节点，不能修改！\n", node.no);
+		}
+	}
+	
+	/**
+	 * 删除节点
+	 */
+	public void delLinkedList(HeroNodeModel node) {
+		//判断链表是否为空，若是空的话，没法删除
+		if(hedaNode.next == null) {
+			System.out.println("当前链表为空～～");
+			return;
+		}
+		//创建是否删除的标记
+		boolean flag = false;
+		//创建辅助指针
+		HeroNodeModel temp = hedaNode;
+		while (true) {
+			if(temp.next == null) {
+				//所有的都遍历完了，没有找到可以删除的节点，跳出循环
+				flag = true;
+				break;
+			}
+			if(temp.next.no == node.no) {
+				// 找到了跳出循环
+				break;
+			}
+			//还有节点，将辅助指针后移
+			temp = temp.next;
+		}
+		if(flag) {
+			System.out.printf("没有找到编号为：%d 的节点，无法删除～～\t",node.no);
+		}else {
+			//将复制指针的下一个，指向下一个的下一个
+			temp.next = temp.next.next;
+		}
+	}
 }

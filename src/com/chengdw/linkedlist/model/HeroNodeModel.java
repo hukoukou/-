@@ -8,8 +8,8 @@ package com.chengdw.linkedlist.model;
  */
 public class HeroNodeModel {
 	public int no;
-	private String name;
-	private String nikeName;
+	public String name;
+	public String nikeName;
 	// 下一个节点
 	public HeroNodeModel next;
 
