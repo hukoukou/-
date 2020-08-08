@@ -48,5 +48,20 @@ public class SingleLinkedList {
 		singleList.delLinkedList(hukoukou);
 		singleList.list();
 
+		// 简单面试题：获取当前链表中有效节点的个数
+		int sizeLinkedList = singleList.sizeLinkedList(singleList.getHedaNode());
+		System.out.printf("当前链表的有效节点个数是：%d\n", sizeLinkedList);
+
+		// 面试题：单链表中倒数第k个节点
+		int k = 2;
+		HeroNodeModel laseIndexNode = singleList.getLaseIndexNode(k);
+		System.out.printf("查找链表的倒数第 %d 个，查找的结果是：%s\n", k, laseIndexNode.toString());
+		// 据说还有两个指针移动的方案，暂时没想出来
+		
+		// 腾讯面试题：单链表反转，有点难度（头插法）
+		System.out.println("反转");
+		SingleLinkedListModel reverseLinkedList = singleList.getReverseLinkedList(singleList);
+		reverseLinkedList.list();
+		
 	}
 }

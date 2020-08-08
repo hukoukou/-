@@ -1,7 +1,5 @@
 package com.chengdw.linkedlist.model;
 
-import java.awt.HeadlessException;
-
 /**
  * 存放链表
  * 
@@ -11,6 +9,14 @@ import java.awt.HeadlessException;
 public class SingleLinkedListModel {
 	// 初始化一个头节点
 	private HeroNodeModel hedaNode = new HeroNodeModel(0, "", "");
+
+	public HeroNodeModel getHedaNode() {
+		return hedaNode;
+	}
+
+	public void setHedaNode(HeroNodeModel hedaNode) {
+		this.hedaNode = hedaNode;
+	}
 
 	/**
 	 * 将节点加入到链表中 当前添加方式没有考虑按照一定顺序添加，只是把所有的新的节点添加到尾部
@@ -121,38 +127,138 @@ public class SingleLinkedListModel {
 			System.out.printf("没有找到编号为：%d的节点，不能修改！\n", node.no);
 		}
 	}
-	
+
 	/**
 	 * 删除节点
 	 */
 	public void delLinkedList(HeroNodeModel node) {
-		//判断链表是否为空，若是空的话，没法删除
-		if(hedaNode.next == null) {
+		// 判断链表是否为空，若是空的话，没法删除
+		if (hedaNode.next == null) {
 			System.out.println("当前链表为空～～");
 			return;
 		}
-		//创建是否删除的标记
+		// 创建是否删除的标记
 		boolean flag = false;
-		//创建辅助指针
+		// 创建辅助指针
 		HeroNodeModel temp = hedaNode;
 		while (true) {
-			if(temp.next == null) {
-				//所有的都遍历完了，没有找到可以删除的节点，跳出循环
+			if (temp.next == null) {
+				// 所有的都遍历完了，没有找到可以删除的节点，跳出循环
 				flag = true;
 				break;
 			}
-			if(temp.next.no == node.no) {
+			if (temp.next.no == node.no) {
 				// 找到了跳出循环
 				break;
 			}
-			//还有节点，将辅助指针后移
+			// 还有节点，将辅助指针后移
 			temp = temp.next;
 		}
-		if(flag) {
-			System.out.printf("没有找到编号为：%d 的节点，无法删除～～\t",node.no);
-		}else {
-			//将复制指针的下一个，指向下一个的下一个
+		if (flag) {
+			System.out.printf("没有找到编号为：%d 的节点，无法删除～～\t", node.no);
+		} else {
+			// 将复制指针的下一个，指向下一个的下一个
 			temp.next = temp.next.next;
+		}
+	}
+
+	/**
+	 * 检查当前链表的有效节点的个数
+	 */
+	public int sizeLinkedList(HeroNodeModel headNode) {
+		if (headNode == null || headNode.next == null) {
+			return 0;
+		}
+		int size = 0;
+		// 创建辅助指针
+		HeroNodeModel cur = headNode.next;
+		while (cur != null) {
+			size++;
+			// 移动指针
+			cur = cur.next;
+
+		}
+		return size;
+	}
+
+	/**
+	 * 查找倒数第n个节点 
+	 * 思路： 
+	 * 	1.创建index，index表示倒数第index节点 
+	 * 	2.编写方法，接受head节点，同时接受index
+	 * 	3.遍历链表，得到链表长度lengthLinked 4.得到链表长度后，再次从头遍历，到size-lengthLinked即可
+	 * 	5.如果没有，返回空null
+	 * 
+	 */
+	public HeroNodeModel getLaseIndexNode(int index) {
+		// 校验是否有效
+		if (hedaNode == null || hedaNode.next == null) {
+			System.out.println("当前链表为空～～");
+			return null;
+		}
+		// 获取链表长度
+		int sizeLinkedList = sizeLinkedList(hedaNode);
+		if (index > sizeLinkedList) {
+			System.out.println("查找的位置超过链表长度了～～");
+			return null;
+		}
+		HeroNodeModel res = hedaNode.next;
+		for (int i = 0; i < (sizeLinkedList-index); i++) {
+			res = res.next;
+		}
+		return res;
+	}
+	
+	/**
+	 * 反转链表
+	 * 思路：
+	 * 	1.定义一个reverseNode = new HeroNodeModel()节点
+	 * 	2.从头到尾遍历旧的链表，每取出一个，放到reverseNode最前面
+	 * 	3.将原来节点的头节点的下一个指向reverseNode的下一个，这样原来头节点的位置，就取代了作为临时变量的reverseNode，head.next = reverseNode.next
+	 */
+	public SingleLinkedListModel getReverseLinkedList(SingleLinkedListModel linkedList) {
+		// 检查当前链表是否是空，或者只有一个，因为只有一个的话，那就不需要发转了
+		if(linkedList == null || linkedList.hedaNode.next == null) {
+			System.out.println("当前链表为空，不能反转");
+			return null;
+		}
+		if(linkedList.sizeLinkedList(linkedList.getHedaNode()) == 1) {
+			return linkedList;
+		}else {
+			// 创建临时变量，也就是当前节点
+			HeroNodeModel cru = linkedList.getHedaNode().next;
+			// 创建当前节点的下一个
+			HeroNodeModel cruNext = null;
+			// 创建反转后的头节点
+			HeroNodeModel reverseNode = new HeroNodeModel(0,"","");
+			// 遍历原来的链表，每遍历一个节点，将他取出来，放到reverseNode最前面
+			while(cru!=null) {
+				// 先将cru的下一个取出来，做一个备份，否则一会cru移动就找不到了
+				cruNext = cru.next;
+				// 将cru指向一个替换的变量，可以把reverseNode.next临时变量，这个临时变量存放的就是反转前的上一个数据
+				cru.next = reverseNode.next;
+				// 上反转前的上一个数据赋值给cru.next，这样cru.next就能指向cru了，reverseNode.next是一个不断移动的指针
+				reverseNode.next = cru;
+				// 将指针后移
+				cru = cruNext;
+				//后面循环重复前面的操作
+			}
+			// 将头指针指向reverseNode的下一个
+			linkedList.getHedaNode().next = reverseNode.next;
+			/**
+			 * 原来o->a1->a2->a3>a4
+			 * 程序执行：
+			 * 	第一次：
+			 * 		a2->res.next->a1
+			 * 	第二次：
+			 * 		a3->res.next->a2->a1;
+			 * 	第三次：
+			 * 		a4->res.next->a3->a2->a1
+			 * 	第四次：
+			 * 		o—>res.next->a4->a3->a2->a1
+			 *  循环结束->表示cru.next
+			 */
+			return linkedList;
 		}
 	}
 }
