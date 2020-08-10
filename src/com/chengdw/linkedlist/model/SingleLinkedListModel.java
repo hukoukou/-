@@ -1,5 +1,7 @@
 package com.chengdw.linkedlist.model;
 
+import java.util.Stack;
+
 /**
  * 存放链表
  * 
@@ -261,4 +263,42 @@ public class SingleLinkedListModel {
 			return linkedList;
 		}
 	}
+	
+	/**
+	 * 反向打印链表
+	 * 思路：
+	 * 	1.先将单链表反转，然后遍历打印，这种方法存在问题，会破坏单链表结构，不建议使用
+	 * 	2.可是使用栈，先将单链表节点逐个压入栈，然后再出栈打印，利用栈的先进后出（区别与队列的先进先出）就可以实现逆序打印，可以查看TestStack演示
+	 */
+	public void reversePrint(SingleLinkedListModel linkedList) {
+		// 判断链表是否为空
+		if (linkedList == null || linkedList.getHedaNode().next == null) {
+			System.out.println("当前链表为空～～");
+		}
+		// 创建栈，将各个节点押入栈内
+		Stack<HeroNodeModel> stack = new Stack();
+		HeroNodeModel cur = linkedList.getHedaNode().next;
+		while (cur != null) {
+			// add是继承自Vector的方法，且返回值类型是boolean。
+			// push是Stack自身的方法，返回值类型是参数类类型。
+			stack.push(cur);
+			cur = cur.next;
+		}
+		
+		// 将栈中的结果打印
+		while (stack.size() > 0) {
+			// stack.peek() 返回栈顶元素，但不在堆栈中删除它。
+			// stack.pop() 返回栈顶元素，并在堆栈中删除它。
+			// stack特点是先进后出
+			System.out.println(stack.pop());
+		}
+	}
+	
+	/**
+	 * 合并
+	 */
+	public void addAll(SingleLinkedListModel s1,SingleLinkedListModel s2,SingleLinkedListModel s3) {
+		
+	}
+	
 }

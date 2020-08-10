@@ -63,5 +63,46 @@ public class SingleLinkedList {
 		SingleLinkedListModel reverseLinkedList = singleList.getReverseLinkedList(singleList);
 		reverseLinkedList.list();
 		
+		// 百度面试题：从尾到头打印单链表，要求：1.反向遍历，2.Stack栈
+		System.out.println("逆序打印链表");
+		singleList.reversePrint(singleList);
+		
+		// 练习：合并两个有序链表，推荐使用递归
+		/**
+		 * 思路：
+		 * 	创建两个头节点，添加数据
+		 * 	创建第三个
+		 * 	
+		 * 
+		 */
+		SingleLinkedListModel s1 = new SingleLinkedListModel();
+		SingleLinkedListModel s2 = new SingleLinkedListModel();
+		SingleLinkedListModel s3 = new SingleLinkedListModel();
+		//创建数据
+		HeroNodeModel n1 = new HeroNodeModel(1, "1", "1");
+		HeroNodeModel n2 = new HeroNodeModel(2, "2", "2");
+		HeroNodeModel n3 = new HeroNodeModel(3, "3", "3");
+		HeroNodeModel n4 = new HeroNodeModel(4, "4", "4");
+		HeroNodeModel n5 = new HeroNodeModel(5, "5", "5");
+		HeroNodeModel n6 = new HeroNodeModel(6, "6", "6");
+		HeroNodeModel n7 = new HeroNodeModel(7, "7", "7");
+		
+		s1.addByOrder(n1);
+		s1.addByOrder(n3);
+		s1.addByOrder(n5);
+		s1.addByOrder(n7);
+		
+		s2.addByOrder(n2);
+		s2.addByOrder(n4);
+		s2.addByOrder(n6);
+		
+		s3.addAll(s1,s2,s3);
+		//合并
+		//分别创建三个辅助指针
+		//遍历s1和s2
+		//对比s1和s2指针的数据，然后放入到s3的指针上，三个指针后移
+		//结束后查看哪个指针的后面还不为空，然后遍历放入到s3中
+		//输出s3
+		s3.list();
 	}
 }
