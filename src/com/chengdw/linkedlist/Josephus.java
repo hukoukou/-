@@ -86,7 +86,8 @@ class CircleSingleLinkedList {
 			System.out.println("输入的参数有误～");
 			return;
 		}
-		// 创建辅助指针，帮助节点出圈
+		// 创建辅助指针，帮助节点出圈，为什么要将辅助指针设置到链表的最后一个，因为，在遍历时，是从第一个开始遍历，或者是是说从要求指定的位置开始遍历，删除时需要知道
+		// 要删除节点的前一个，因此，先讲辅助指针指向链表的最后一个，如果不是从第一个开始遍历，那么只需要将第一个节点指针和辅助节点指针同时位移就可以
 		Boy helperBoy = first;
 		while (true) {
 			if (helperBoy.getNext() == first) {
