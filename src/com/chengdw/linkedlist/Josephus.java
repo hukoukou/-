@@ -13,6 +13,8 @@ public class Josephus {
 		CircleSingleLinkedList circleSingleLinkedList = new CircleSingleLinkedList();
 		circleSingleLinkedList.addBoy(5);
 		circleSingleLinkedList.showList();
+		// 测试节点出圈是否正确；从第一个开始，每移动两个开始出圈，圈中一共有5个。结果：2-->4-->1-->5-->3
+		circleSingleLinkedList.count(1, 2, 5);
 	}
 
 }
@@ -86,15 +88,40 @@ class CircleSingleLinkedList {
 		}
 		// 创建辅助指针，帮助节点出圈
 		Boy helperBoy = first;
-		while(true) {
-			if(helperBoy.getNext() == first) {
+		while (true) {
+			if (helperBoy.getNext() == first) {
 				// 如果辅助指针指向了第一个节点，那么链表遍历结束
 				break;
 			}
 			// 否则，指针后移
 			helperBoy = helperBoy.getNext();
 		}
-		
+
+		// 准备出圈
+		// 在出圈前，如果fisrt不在当前指定的位置上，需要让first和helper移动startNo-1次，startNo表示从第几个人开始报数，first表示头节点，helper表示尾节点，表示从startNo开始
+		for (int i = 0; i < startNo - 1; i++) {
+			first = first.getNext();
+			helperBoy = helperBoy.getNext();
+		}
+
+		// 位置初始化之后，开始节点出圈，让first和helperBoy同时移动countNo-1次，然后节点出圈
+		while (true) {
+			// 如果辅助指针==第一个节点指针，表示当前环形链表中只剩最后一个节点
+			if (helperBoy == first) {
+				break;
+			}
+			// 让first和helperBoy同时移动countNo-1次，然后节点出圈
+			for (int i = 0; i < countNo - 1; i++) {
+				first = first.getNext();
+				helperBoy = helperBoy.getNext();
+			}
+			System.out.printf("当前节点为：%d 出圈\n", first.getNo());
+			// 出圈
+			first = first.getNext();
+			// 将辅助节点的下一个指向最新的first节点，注意，这里不是移动辅助节点
+			helperBoy.setNext(first);
+		}
+		System.out.printf("留在圈中的节点编号为：%d\n", helperBoy.getNo());
 	}
 }
 
