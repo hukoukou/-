@@ -1,17 +1,16 @@
 package com.chengdw.stack;
 
 /**
- * 使用栈实现输入文本格式的计算时的数据计算
- * 当前算法存在问题：
- * 	1.不能进行多位数的运算（可以在取数时，对下一位进行判断，判断是否时运算符）
- *  2.不能进行负数运算
+ * 使用栈实现输入文本格式的计算时的数据计算 当前算法存在问题： 1.不能进行多位数的运算（可以在取数时，对下一位进行判断，判断是否时运算符）
+ * 2.不能进行负数运算
+ * 
  * @author dawei
  *
  */
 public class Calculator {
 	public static void main(String[] args) {
 		// 创建需要计算的式子
-		String exp = "7+2*6-4";
+		String exp = "700+2*6-4";
 		// 创建符号栈和数字栈
 		ArrayStackComp operStack = new ArrayStackComp(10);
 		ArrayStackComp numStack = new ArrayStackComp(10);
@@ -23,6 +22,8 @@ public class Calculator {
 		int res = 0;
 		// 将扫描得到的char先存放到ch中
 		char ch = ' ';
+		// 用于拼接多位数
+		String keepNmu = "";
 		// 循环遍历
 		while (true) {
 			ch = exp.subSequence(index, index + 1).charAt(0);
@@ -50,7 +51,26 @@ public class Calculator {
 				}
 			} else {
 				// 若不是运算符，直接入栈，注意，要将‘1’=》1，将字符1，转化为数字1，ASCII表对照，相差48
-				numStack.push(ch - 48);
+				// numStack.push(ch - 48);
+				// 若存在多位数，则出现问题
+				// 优化思路：
+				// 1.当发现是数字时，不能直接入栈，要进行判断
+				// 2.在处理数字时，需要想exp多看一位，如果时数，则继续扫描，如果时符合位，才停止
+				// 3.需要定义一个变量，用于拼接
+				keepNmu += ch;
+				// 如果ch是最后一个时，直接入栈
+				if (index == exp.length() - 1) {
+					numStack.push(Integer.parseInt(keepNmu));
+				} else {
+					// 判断下一位是否时数字
+					// 如果时数字，则继续扫描，如果时符号，则入数据栈
+					if (operStack.isOper(exp.subSequence(index + 1, index + 2).charAt(0))) {
+						// 如果后一位运算符，则入栈
+						numStack.push(Integer.parseInt(keepNmu));
+						// 重要，结束后需要将keepNum清空
+						keepNmu = "";
+					}
+				}
 			}
 			// index+1，判断是否扫描到exp的最后
 			index++;
@@ -61,7 +81,7 @@ public class Calculator {
 		// 当表达式扫描结束，按照顺序pop出数字和符号，进行计算
 		while (true) {
 			// 若符号栈为空，则循环结束
-			if(operStack.isEmpty()) {
+			if (operStack.isEmpty()) {
 				break;
 			}
 			// 计算
@@ -72,7 +92,7 @@ public class Calculator {
 			numStack.push(res);
 		}
 		// 输出打印
-		System.out.printf("表达式：%s = %d",exp,numStack.pop());
+		System.out.printf("表达式：%s = %d", exp, numStack.pop());
 	}
 }
 
